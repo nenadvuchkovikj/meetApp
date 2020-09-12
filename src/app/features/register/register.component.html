@@ -1,0 +1,14 @@
+<form class="form" [formGroup]="registerForm">
+  <h2>Register</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Email</mat-label>
+      <input matInput formControlName="email" placeholder="example@gmail.com" autocomplete="off"required>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-bottom:7px">
+      <mat-label>Enter Password</mat-label>
+      <input matInput formControlName="password" type="password" autocomplete="off" required>
+      <mat-hint>Minimum 6 characters</mat-hint>
+    </mat-form-field>
+    <button mat-raised-button color="accent" style="margin-bottom: 10px" (click)="createUser()">Register</button>
+    <p routerLink="/login" class="smalltxt">Already have an account?</p>
+</form>

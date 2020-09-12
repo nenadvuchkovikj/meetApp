@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,10 +25,16 @@ import { EventListComponent } from './event-list/event-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { EventsServiceService } from './service/events-service.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { EventComponent } from './event/event.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginFormComponent } from './features/login/login-form/login-form.component';
+import { RegisterComponent } from './features/register/register.component';
+import { RouterModule } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
 
 
 @NgModule({
@@ -36,7 +44,10 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
     AddEventComponent,
     DialogAddItem,
     EventListComponent,
-    EventComponent
+    EventComponent,
+    DashboardComponent,
+    LoginFormComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +68,11 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
     MatSnackBarModule,
     MatExpansionModule,
     AmazingTimePickerModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule,
+    RouterModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [EventsServiceService],
   bootstrap: [AppComponent]

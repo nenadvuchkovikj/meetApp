@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import {AngularFireAuth} from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -27,9 +29,15 @@ export class MainNavComponent {
     }
   }
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver,
+              private auth: AngularFireAuth,
+              private router: Router
+    ) {}
 
   onDarkModeSwitched({ checked }: MatSlideToggleChange){
     this.modeSwitched.emit(checked);
+  }
+  onLogout(){
+    this.auth.signOut().then(() => this.router.navigate(['login']));
   }
 }

@@ -1,7 +1,3 @@
 <app-main-nav (modeSwitched)="switchMode($event)">
-  <div class="container">
-    <h2>Welcome To MeetApp!</h2>
-    <app-add-event></app-add-event>
-    <app-event-list></app-event-list>
-  </div>
+  <router-outlet></router-outlet>
 </app-main-nav>

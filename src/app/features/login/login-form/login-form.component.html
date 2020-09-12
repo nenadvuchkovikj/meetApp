@@ -1,0 +1,15 @@
+<form class="form" [formGroup]="loginForm">
+  <h2>LOGIN</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Email</mat-label>
+      <input matInput placeholder="example@gmail.com" autocomplete="off" required formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter Password</mat-label>
+      <input matInput type="password" autocomplete="off" required formControlName="password">
+    </mat-form-field>
+  <div class="buttons">
+    <button mat-raised-button color="primary" style="margin-right: 15px" (click)="onLogin()">Login</button>
+    <a routerLink="/register" mat-raised-button>Register</a>
+  </div>
+</form>
