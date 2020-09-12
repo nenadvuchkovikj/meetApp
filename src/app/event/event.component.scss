@@ -1,0 +1,22 @@
+.mat-card-content p{
+  font-style: italic;
+  float: right;
+}
+
+.going-container{
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-right: 2.5px;
+  margin-bottom: 0px;
+  padding-bottom:10px;
+}
+.expandButton{
+  // position: absolute;
+  // bottom: 85px;
+  // right: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: -15px;
+}

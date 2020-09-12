@@ -1,0 +1,28 @@
+<mat-card-header>
+  <div mat-card-avatar style="background: url({{event.hostPicture}});background-size:cover"></div>
+  <mat-card-title>{{event.eventName}} / {{ event.eventTime }}</mat-card-title>
+  <mat-card-subtitle>{{event.eventHost}}</mat-card-subtitle>
+</mat-card-header>
+<mat-card-content>
+  <p>{{ event.eventDate | date}}</p>
+</mat-card-content>
+<mat-card-actions style="padding-top: 0;padding-bottom:0;">
+  <button mat-raised-button color=primary (click)="eventGoing(event)">GOING</button>
+  <button mat-raised-button (click)="eventNotGoing(event)">CAN'T GO</button>
+  <div style="color:#ff4081" *ngIf="!expand" (click)="expand = !expand" class="expandButton">
+    <span>Going</span>
+    <span class="material-icons" >expand_more</span>
+  </div>
+  <div style="color:#ff4081" *ngIf="expand" (click)="expand = !expand" class="expandButton">
+    <span>Going</span>
+    <span class="material-icons">expand_less</span>
+  </div>
+</mat-card-actions>
+  <div *ngIf="expand">
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+        <div class="going-container">
+            <span *ngFor="let person of event.going"><img src="{{person.picture}}" alt="{{person.name}}" title="{{person.name}}" height="24" width="24" style="border-radius:50%;margin:5px;"></span>
+        </div>
+    </mat-card-footer>
+  </div>

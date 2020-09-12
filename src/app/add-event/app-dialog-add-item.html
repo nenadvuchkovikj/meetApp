@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Add Event</h2>
+
+<mat-dialog-content>
+  <mat-divider></mat-divider>
+  <form class="example-form">
+
+    <p>
+      <mat-form-field appearance="outline" style="margin-bottom: -1.25em" class="full-width">
+        <mat-label>Event Name</mat-label>
+        <mat-icon matSuffix>emoji_food_beverage</mat-icon>
+        <input matInput placeholder="Coffee Gallery" autocomplete="off" [(ngModel)]="event.eventName" name="eventName" required>
+
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" style="margin-right: 10px;">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" autocomplete="off" [(ngModel)]="event.eventDate" name="eventDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-hint>Click on the calendar to choose date</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Time</mat-label>
+        <mat-icon matSuffix>schedule</mat-icon>
+        <input matInput atp-time-picker placeholder="12:00" autocomplete="off" [(ngModel)]="event.eventTime" name="eventTime" required>
+      </mat-form-field>
+    </p>
+    <p *ngIf="error" style="color:#f44336">All fields are required</p>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-raised-button color=primary (click)="addPost('Event added!', 'X')" >Post</button>
+</mat-dialog-actions>
