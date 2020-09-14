@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventsServiceService } from '../service/events-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AmazingTimePickerService } from 'amazing-time-picker';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-event',
@@ -43,34 +46,37 @@ export class DialogAddItem{
      private eS: EventsServiceService,
      private _snackBar: MatSnackBar,
      public dialog: MatDialog,
-     private atp: AmazingTimePickerService) {}
+     private atp: AmazingTimePickerService,
+     private fba: AngularFireAuth) {}
   event: any = {
-    eventName: null,
-    eventHost: "Nenad Vuchkovikj",
-    hostPicture: "/assets/people/Nenad-Vuchkovikj.jpg",
-    eventDate: null,
-    eventTime: null,
-    going: [
-      {
-        picture: "/assets/people/Nenad-Vuchkovikj.jpg",
-        name: "Nenad Vuchkovikj"
-      }
-    ]
+    date: null,
+    dateCreated: null,
+    going: [],
+    location: null,
+    sender: "",
+    time: null,
   }
   error:boolean = false;
   addPost(message: string, action: string){
-    if(this.event.eventName === null || this.event.eventDate === null || this.event.eventTime === null ||
-       this.event.eventName === "" || this.event.eventDate === "" || this.event.eventTime === ""){
+    if(this.event.location === null || this.event.date === null || this.event.time === null ||
+       this.event.location === "" || this.event.date === "" || this.event.time === ""){
       this.error = true;
     } else{
-      this.eS.addEvent(this.event);
-      this._snackBar.open(message,action, {
-        duration: 2500,
+      this.fba.authState.subscribe(authState =>{
+        this.event.sender = authState.email;
+        this.event.date = (new Date(this.event.date).getDate() +'/' +(new Date(this.event.date).getUTCMonth() +1)+'/'+ new Date(this.event.date).getFullYear());
+        this.event.dateCreated = Math.round(new Date().getTime() / 1000);
+        this.event.going.push(this.event.sender);
+        this.eS.addEvent(this.event);
+        this._snackBar.open(message,action, {
+          duration: 2500,
+        });
+        this.dialog.closeAll();
+        this.error = false;
       });
-      this.dialog.closeAll();
-      this.error = false;
     }
   }
+
   openTime(){
     const amazingTimePicker = this.atp.open();
     amazingTimePicker.afterClose().subscribe(time =>{

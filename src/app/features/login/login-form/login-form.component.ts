@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
@@ -14,7 +15,8 @@ export class LoginFormComponent implements OnInit {
   constructor(
      private fb: FormBuilder,
      private auth: AngularFireAuth,
-     private router: Router
+     private router: Router,
+     private _snackBar: MatSnackBar,
      ) { }
 
   ngOnInit(): void {
@@ -28,6 +30,9 @@ export class LoginFormComponent implements OnInit {
     const {email, password} = this.loginForm.value;
     this.auth.signInWithEmailAndPassword(email, password).then( () => {
       this.router.navigate(['']);
+      this._snackBar.open('Successfully Logged in','X', {
+        duration: 2500,
+      });
     });
   }
 

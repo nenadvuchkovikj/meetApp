@@ -35,6 +35,7 @@ import { RegisterComponent } from './features/register/register.component';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { AngularFireModule } from '@angular/fire';
     AppRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [EventsServiceService],
   bootstrap: [AppComponent]

@@ -8,15 +8,17 @@
   margin-left: 10px;
   margin-right: 2.5px;
   margin-bottom: 0px;
-  padding-bottom:10px;
+  padding-bottom:20px;
 }
+
 .expandButton{
-  // position: absolute;
-  // bottom: 85px;
-  // right: 10px;
-  cursor: pointer;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   margin-top: -15px;
+}
+
+.exB{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }

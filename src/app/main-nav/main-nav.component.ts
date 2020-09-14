@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main-nav',
@@ -31,7 +32,8 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private auth: AngularFireAuth,
-              private router: Router
+              private router: Router,
+              private _snackBar: MatSnackBar,
     ) {}
 
   onDarkModeSwitched({ checked }: MatSlideToggleChange){
@@ -39,5 +41,8 @@ export class MainNavComponent {
   }
   onLogout(){
     this.auth.signOut().then(() => this.router.navigate(['login']));
+    this._snackBar.open('Successfully Logged out!','X', {
+      duration: 2500,
+    });
   }
 }

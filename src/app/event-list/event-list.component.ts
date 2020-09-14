@@ -12,7 +12,10 @@ export class EventListComponent implements OnInit {
 
   events: any[] = [];
   ngOnInit(): void {
-    this.events = this.eS.getEvents();
+    this.eS.getEventsFromDB().subscribe(ev => {
+        this.events = ev;
+    });
+
   }
 
 }
