@@ -45,6 +45,13 @@ $MeetApp-theme-light: mat-light-theme((
 .theme-light{
   @include angular-material-theme($MeetApp-theme-light);
 }
+.warning{
+  background:#f44336 !important;
+    .mat-simple-snackbar-action {
+      color: white !important;
+  }
+}
+
 
 /* You can add global styles to this file, and also import other style files */
 

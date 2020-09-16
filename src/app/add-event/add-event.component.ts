@@ -29,17 +29,7 @@ export class AddEventComponent{
 @Component({
   selector: 'app-dialog-add-item',
   templateUrl: 'app-dialog-add-item.html',
-  styles:[
-    `
-      .mat-form-field-wrapper {
-        padding-bottom: 0 !important;
-      }
-      .full-width{
-        width: 100%;
-      }
-    `
-  ]
-
+  styleUrls: ['app-dialog-add-item.scss']
 })
 export class DialogAddItem{
   constructor(

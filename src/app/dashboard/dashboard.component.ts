@@ -12,7 +12,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(){
     this.fba.authState.subscribe(authState =>{
-      this.userEmail = authState.email;
+      if(authState){
+        this.userEmail = authState.email;
+      }
     })
   }
 

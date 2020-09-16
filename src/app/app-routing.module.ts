@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: '', component: DashboardComponent,
     canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: redirectUnauthorizedToLogin } },
+    data: {authGuardPipe: redirectUnauthorizedToLogin }},
   {path: '**', redirectTo:''}
 ]
 

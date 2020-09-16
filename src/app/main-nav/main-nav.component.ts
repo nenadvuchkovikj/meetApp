@@ -40,7 +40,7 @@ export class MainNavComponent {
     this.modeSwitched.emit(checked);
   }
   onLogout(){
-    this.auth.signOut().then(() => this.router.navigate(['login']));
+    this.auth.signOut().then(() => this.router.navigate(['login'])).catch(err => console.log(err));
     this._snackBar.open('Successfully Logged out!','X', {
       duration: 2500,
     });

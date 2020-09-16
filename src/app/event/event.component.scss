@@ -9,6 +9,14 @@
   margin-right: 2.5px;
   margin-bottom: 0px;
   padding-bottom:20px;
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+    /* Non standard for WebKit */
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
 }
 
 .expandButton{

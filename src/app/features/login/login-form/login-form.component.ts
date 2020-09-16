@@ -33,6 +33,11 @@ export class LoginFormComponent implements OnInit {
       this._snackBar.open('Successfully Logged in','X', {
         duration: 2500,
       });
+    }).catch(err =>{
+      this._snackBar.open(err.message, 'X', {
+        duration: 2000,
+        panelClass: ['warning']
+      });
     });
   }
 
