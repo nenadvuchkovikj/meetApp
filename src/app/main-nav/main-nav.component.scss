@@ -28,3 +28,7 @@
 .active{
   color:#ff4081 !important;
 }
+
+.mat-list-item:hover{
+  color: lighten(#ff4081, 20)
+}

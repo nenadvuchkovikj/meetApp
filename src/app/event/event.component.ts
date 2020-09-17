@@ -16,7 +16,7 @@ export class EventComponent implements OnInit {
     private eS: EventsServiceService,
     private fba: AngularFireAuth,
     private _snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
     ) { }
   @Input() event;
 
@@ -25,6 +25,9 @@ export class EventComponent implements OnInit {
   addPerson: boolean = true;
   userEmail:string;
   showButtons:boolean = false;
+  loaded:boolean = false;
+
+  showGoingButton: boolean = true;
 
   editState: boolean = false;
   eventToEdit;
@@ -34,9 +37,17 @@ export class EventComponent implements OnInit {
       if(authState){
         this.userEmail = authState.email;
       }
+      this.event.data.going.find(go => {
+       if(go === this.userEmail){
+         this.showGoingButton = false;
+       }
+      })
       if(this.userEmail === this.event.data.sender){
         this.showButtons = true;
       }
+      setTimeout(()=>{
+        this.loaded = true;
+      }, 100);
     });
 
     this.eS.getEventsFromDB().subscribe(ev =>{
@@ -113,6 +124,10 @@ export class EventComponent implements OnInit {
   ]
 
 })
+
+
+
+
 export class DialogEditItem{
   constructor(
     private eS: EventsServiceService,
@@ -126,7 +141,7 @@ export class DialogEditItem{
       this.updateTime = this.event.time;
       this.updateLoc = this.event.location;
       this.updateDate = this.event.date.split("/");
-      this.updateDate = new Date(parseInt(this.updateDate[2]),parseInt(this.updateDate[1])-1,parseInt(this.updateDate[0]));
+      this.updateDate = new Date(parseInt(this.updateDate[2])+2000,parseInt(this.updateDate[1])-1,parseInt(this.updateDate[0]));
     }
 
     updateTime;
@@ -151,7 +166,7 @@ export class DialogEditItem{
    } else{
      this.fba.authState.subscribe(authState =>{
        this.event.location = this.updateLoc;
-       this.event.date = (new Date(this.updateDate).getDate() +'/' +(new Date(this.updateDate).getUTCMonth() +1)+'/'+ new Date(this.updateDate).getFullYear());
+       this.event.date = this.getEventDate(this.updateDate);
        this.event.time = this.updateTime;
        this.eS.updateEvent(this.event);
        this._snackBar.open(message,action, {
@@ -169,5 +184,14 @@ export class DialogEditItem{
        console.log(time);
    });
  }
+ getEventDate(date){
+  let eDay = new Date(date).getDate();
+  let eMonth:any = (new Date(date).getUTCMonth() +1);
+  if(eMonth < 10){
+    eMonth = '0' + eMonth;
+  }
+  let eYear = new Date(date).getFullYear().toString().substr(-2);
+  return (eDay +'/' + eMonth +'/'+ eYear);
+  }
 
 }

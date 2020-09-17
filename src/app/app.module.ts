@@ -27,6 +27,7 @@ import { EventsServiceService } from './service/events-service.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DialogEditItem, EventComponent } from './event/event.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -36,6 +37,7 @@ import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     DashboardComponent,
     LoginFormComponent,
     RegisterComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     RouterModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     EventsServiceService,

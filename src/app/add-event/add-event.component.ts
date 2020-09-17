@@ -37,7 +37,8 @@ export class DialogAddItem{
      private _snackBar: MatSnackBar,
      public dialog: MatDialog,
      private atp: AmazingTimePickerService,
-     private fba: AngularFireAuth) {}
+     private fba: AngularFireAuth) {
+     }
   event: any = {
     date: null,
     dateCreated: null,
@@ -54,7 +55,7 @@ export class DialogAddItem{
     } else{
       this.fba.authState.subscribe(authState =>{
         this.event.sender = authState.email;
-        this.event.date = (new Date(this.event.date).getDate() +'/' +(new Date(this.event.date).getUTCMonth() +1)+'/'+ new Date(this.event.date).getFullYear());
+        this.event.date = this.getEventDate(this.event.date);
         this.event.dateCreated = Math.round(new Date().getTime() / 1000);
         this.event.going.push(this.event.sender);
         this.eS.addEvent(this.event);
@@ -72,5 +73,15 @@ export class DialogAddItem{
     amazingTimePicker.afterClose().subscribe(time =>{
         console.log(time);
     });
+  }
+
+  getEventDate(date){
+    let eDay = new Date(date).getDate();
+    let eMonth:any = (new Date(date).getUTCMonth() +1);
+    if(eMonth < 10){
+      eMonth = '0' + eMonth;
+    }
+    let eYear = new Date(date).getFullYear().toString().substr(-2);
+    return (eDay +'/' + eMonth +'/'+ eYear);
   }
 }

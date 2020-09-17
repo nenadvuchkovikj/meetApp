@@ -7,8 +7,9 @@
   <p>{{ event.data.date }}</p>
 </mat-card-content>
 <mat-card-actions style="padding-top: 0;padding-bottom:0;">
-  <button mat-raised-button color=primary (click)="eventGoing($event, event)">GOING</button>
-  <button mat-raised-button (click)="eventNotGoing(event)">CAN'T GO</button>
+  <button mat-raised-button color=primary (click)="eventGoing($event, event)" *ngIf="showGoingButton && loaded">GOING</button>
+  <button mat-raised-button (click)="eventNotGoing(event)" *ngIf="!showGoingButton && loaded">CAN'T GO</button>
+  <button mat-raised-button *ngIf="!loaded" disabled>LOADING...</button>
   <button mat-icon-button (click)="deleteEvent($event, event)" color="warn" *ngIf="showButtons"><mat-icon >delete_forever</mat-icon></button>
   <button mat-icon-button (click)="openDialog(event)" color="primary" *ngIf="showButtons"><mat-icon >edit</mat-icon></button>
   <div style="color:#ff4081" *ngIf="!expand" class="expandButton">
