@@ -15,7 +15,11 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     this.darkMode = JSON.parse(localStorage.getItem('dmode'));
-    this.renderer.setAttribute(this.document.body, 'class', this.darkMode);
+    if(this.darkMode === null){
+      this.renderer.setAttribute(this.document.body, 'class', 'theme-light');
+    }else {
+      this.renderer.setAttribute(this.document.body, 'class', this.darkMode);
+    }
   }
 
   switchMode(isDarkMode: boolean){
