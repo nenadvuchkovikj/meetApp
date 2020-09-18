@@ -185,10 +185,22 @@ export class DialogEditItem{
    });
  }
  getEventDate(date){
-  let eDay = new Date(date).getDate();
-  let eMonth:any = (new Date(date).getUTCMonth() +1);
+  let eDay:any = new Date(date).getDate();
+  if(eDay < 10){
+    eDay = '0' + eDay;
+  }
+  let eMonth:any
+  if(eDay === '01'){
+    eMonth = (new Date(date).getUTCMonth()+2);
+    console.log(eMonth);
+  }else{
+    eMonth = (new Date(date).getUTCMonth()+1);
+  }
+
   if(eMonth < 10){
     eMonth = '0' + eMonth;
+  } else if(eMonth === 13){
+    eMonth = '01';
   }
   let eYear = new Date(date).getFullYear().toString().substr(-2);
   return (eDay +'/' + eMonth +'/'+ eYear);

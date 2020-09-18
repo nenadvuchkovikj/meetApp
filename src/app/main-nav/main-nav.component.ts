@@ -51,6 +51,8 @@ export class MainNavComponent {
 
   onLogout(){
     if(this.userEmail){
+      if(confirm('Are you sure you want to log out?'))
+      {
         this.auth.signOut().then(() =>{
           this.userEmail = undefined;
           this.router.navigate(['login'])
@@ -58,7 +60,7 @@ export class MainNavComponent {
             duration: 2500,
           });
         }).catch(err => console.log(err));
+      }
     }
-
   }
 }
