@@ -37,7 +37,7 @@ import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent, UpdateProfileName } from './profile/profile.component';
 
 
 @NgModule({
@@ -53,6 +53,7 @@ import { ProfileComponent } from './profile/profile.component';
     LoginFormComponent,
     RegisterComponent,
     ProfileComponent,
+    UpdateProfileName
   ],
   imports: [
     BrowserModule,

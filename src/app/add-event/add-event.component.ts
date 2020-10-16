@@ -18,10 +18,6 @@ export class AddEventComponent{
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogAddItem);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
   }
 
 }
@@ -83,7 +79,6 @@ export class DialogAddItem{
     let eMonth:any
     if(eDay === '01'){
       eMonth = (new Date(date).getUTCMonth()+2);
-      console.log(eMonth);
     }else{
       eMonth = (new Date(date).getUTCMonth()+1);
     }

@@ -1,18 +1,18 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Event } from '../models/event';
 import 'rxjs/add/operator/map';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsServiceService {
-  eventCollection: AngularFirestoreCollection<any>;
-  eventDoc: AngularFirestoreDocument<any>;
+  eventCollection: AngularFirestoreCollection<Event>;
+  eventDoc: AngularFirestoreDocument<Event>;
 
-  arej: any[] = [];
+  arej: Event[] = [];
   events: Observable<any[]>;
   constructor(public afs: AngularFirestore, private fba: AngularFireAuth) {
     // this.events = this.afs.collection('events').valueChanges();
@@ -32,7 +32,7 @@ export class EventsServiceService {
 
 
 
-  addEvent(event: Object){
+  addEvent(event: Event){
     // this.EVENTS.unshift(event);
     this.eventCollection.add(event);
   }
@@ -47,8 +47,6 @@ export class EventsServiceService {
   }
 
   updateGoing(event){
-    // this.eventDoc = this.afs.doc(`events/${event.id}`);
-    // this.eventDoc.update(event);
     return this.afs.collection('events').doc(event.id).update({going : event.data.going});
   }
   ID: string;

@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { EventsServiceService } from '../service/events-service.service';
+import { Event } from '../models/event';
 
 @Component({
   selector: 'app-event',
@@ -47,7 +48,7 @@ export class EventComponent implements OnInit {
       }
       setTimeout(()=>{
         this.loaded = true;
-      }, 100);
+      }, 250);
     });
 
     this.eS.getEventsFromDB().subscribe(ev =>{
@@ -148,13 +149,13 @@ export class DialogEditItem{
     updateLoc;
     updateDate;
 
-  event: any = {
-    date: null,
-    dateCreated: null,
-    going: [],
-    location: null,
-    sender: "",
-    time: null,
+  event: Event = {
+      date: null,
+      dateCreated: null,
+      going: [],
+      location: null,
+      sender: "",
+      time: null,
     }
  error:boolean = false;
 
@@ -192,7 +193,6 @@ export class DialogEditItem{
   let eMonth:any
   if(eDay === '01'){
     eMonth = (new Date(date).getUTCMonth()+2);
-    console.log(eMonth);
   }else{
     eMonth = (new Date(date).getUTCMonth()+1);
   }

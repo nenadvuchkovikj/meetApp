@@ -1,3 +1,12 @@
 <div class="container">
-  <h2>Coming soon</h2>
+  <h1 style="color:#ff4081">Your Profile</h1>
+  <h6 *ngIf="errorMessage">{{ errorMessage }}</h6>
+  <img [src]="imgUrl" alt="" style="border-radius: 50%;" width="100px" height="100px">
+  <input #file type="file" (change)="onFileSelected(file.files)" #fileInput style="display:none;">
+  <button type="button" mat-button (click)="fileInput.click()">Change Image</button>
+  <p>{{ userEmail }}</p>
+  <div class="profile-name">
+    <p>{{ userName }}</p>
+    <button mat-icon-button color="primary" (click)="openDialog(this.userName)"><mat-icon >edit</mat-icon></button>
+  </div>
 </div>

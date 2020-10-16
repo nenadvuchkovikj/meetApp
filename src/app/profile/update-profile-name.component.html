@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Update Name</h2>
+
+<mat-dialog-content>
+  <mat-divider></mat-divider>
+  <form class="example-form">
+    <p>
+      <mat-form-field appearance="outline" style="margin-bottom: -1.25em" class="full-width media">
+        <mat-label>Full Name</mat-label>
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <input matInput autocomplete="off" required [(ngModel)]="userName" name="fullname">
+      </mat-form-field>
+    </p>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color=primary (click)="updateUser()">Update</button>
+</mat-dialog-actions>

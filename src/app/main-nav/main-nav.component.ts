@@ -33,7 +33,6 @@ export class MainNavComponent {
     this.fba.authState.subscribe(authState =>{
       if(authState){
         this.userEmail = authState.email;
-        console.log(this.userEmail);
       }
     });
   }
