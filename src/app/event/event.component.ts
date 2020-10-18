@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { EventsServiceService } from '../service/events-service.service';
 import { Event } from '../models/event';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-event',
@@ -18,6 +20,7 @@ export class EventComponent implements OnInit {
     private fba: AngularFireAuth,
     private _snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private storage: AngularFireStorage
     ) { }
   @Input() event;
 
@@ -27,6 +30,9 @@ export class EventComponent implements OnInit {
   userEmail:string;
   showButtons:boolean = false;
   loaded:boolean = false;
+  creatorImg: any = "../../assets/people/profile.png";
+  creatorName: String;
+  goingPicutres: any[] = [];
 
   showGoingButton: boolean = true;
 
@@ -46,10 +52,31 @@ export class EventComponent implements OnInit {
       if(this.userEmail === this.event.data.sender){
         this.showButtons = true;
       }
+      this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
+        if(res){
+          this.creatorImg = res;
+        }
+      },err => {});
+
+      this.eS.getUser(this.event.data.sender).subscribe(user => {
+        this.creatorName = user.name;
+      });
+
+     this.event.data.going.forEach(go => {
+      this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
+        var name:String = "";
+        this.eS.getUser(go).subscribe(user => {
+          name = user.name;
+          this.goingPicutres.push({picture,name});
+        });
+      },err => {});
+     })
+
       setTimeout(()=>{
         this.loaded = true;
       }, 250);
     });
+
 
     this.eS.getEventsFromDB().subscribe(ev =>{
       this.events = ev;

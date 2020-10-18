@@ -37,6 +37,11 @@ import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask
+} from "@angular/fire/storage";
 import { ProfileComponent, UpdateProfileName } from './profile/profile.component';
 
 
@@ -80,7 +85,8 @@ import { ProfileComponent, UpdateProfileName } from './profile/profile.component
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AngularFireStorageModule
   ],
   providers: [
     EventsServiceService,

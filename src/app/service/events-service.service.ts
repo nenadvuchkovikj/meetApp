@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument}
 import { Observable } from 'rxjs';
 import { Event } from '../models/event';
 import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import 'rxjs/add/operator/map';
 export class EventsServiceService {
   eventCollection: AngularFirestoreCollection<Event>;
   eventDoc: AngularFirestoreDocument<Event>;
-
+  user: Observable<any>;
   arej: Event[] = [];
   events: Observable<any[]>;
   constructor(public afs: AngularFirestore, private fba: AngularFireAuth) {
@@ -29,8 +30,6 @@ export class EventsServiceService {
     });
 
    }
-
-
 
   addEvent(event: Event){
     // this.EVENTS.unshift(event);
@@ -54,6 +53,26 @@ export class EventsServiceService {
     this.ID = event.id;
     delete event.id;
     return this.afs.collection('events').doc(this.ID).update({location : event.location, time: event.time, date: event.date});
+  }
+
+  getUser(id){
+    const userDoc = this.afs.doc(`users/${id}`)
+    this.user = userDoc.snapshotChanges()
+    .pipe(map(action=>{
+       if(action.payload.exists === false){
+          return null;
+       }
+       else{
+          const data = action.payload.data();
+          return data;
+       }
+    }));
+    return this.user;
+  }
+
+  updateUser(email, name){
+      const userDoc = this.afs.doc(`users/${email}`);
+      userDoc.update({email: `${email}`, name: `${name}`});
   }
 
 }

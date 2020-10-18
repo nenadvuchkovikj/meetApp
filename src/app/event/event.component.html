@@ -1,5 +1,5 @@
 <mat-card-header>
-  <div mat-card-avatar style="background: url({{event.hostPicture}});background-size:cover"></div>
+  <div mat-card-avatar><img [src]="creatorImg" width="50px" alt="sender" style="border-radius: 50%;" title="{{creatorName}}"></div>
   <mat-card-title>{{event.data.location | titlecase}} / {{ event.data.time }}</mat-card-title>
   <mat-card-subtitle>{{event.data.sender}}</mat-card-subtitle>
 </mat-card-header>
@@ -28,8 +28,12 @@
   <div *ngIf="expand">
     <mat-divider></mat-divider>
     <mat-card-footer>
-        <div class="going-container">
+        <!-- <div class="going-container">
           <span *ngFor="let person of event.data.going" style="margin-right:10px;">{{person}}</span>
+        </div> -->
+        <div class="going-container">
+          <span *ngFor="let user of goingPicutres " style="margin-right:10px;"><img src="{{user.picture}}" width="20px" alt="{{user.name}}" title="{{user.name}}" style="border-radius: 50%;"></span>
+
         </div>
     </mat-card-footer>
   </div>
