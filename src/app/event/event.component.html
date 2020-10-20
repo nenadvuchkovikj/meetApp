@@ -35,7 +35,7 @@
           <div class="going-container">
             <div *ngIf="goingPicutres.length === 0">
               <span>
-                <img [src]="loading" alt="" width="24px" height="24px">
+                <img [src]="loading" alt="" [title]="loading === '../../assets/none.png' ? 'None' : 'Loading'" width="24px" height="24px">
               </span>
             </div>
             <div *ngIf="goingPicutres.length > 0">
