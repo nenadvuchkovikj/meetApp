@@ -28,7 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { DialogEditItem, EventComponent } from './event/event.component';
+import { DialogEditEvent, DialogProfile, EventComponent } from './event/event.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginFormComponent } from './features/login/login-form/login-form.component';
@@ -53,12 +53,13 @@ import { ProfileComponent, UpdateProfileName } from './profile/profile.component
     DialogAddItem,
     EventListComponent,
     EventComponent,
-    DialogEditItem,
+    DialogEditEvent,
     DashboardComponent,
     LoginFormComponent,
     RegisterComponent,
     ProfileComponent,
-    UpdateProfileName
+    UpdateProfileName,
+    DialogProfile
   ],
   imports: [
     BrowserModule,

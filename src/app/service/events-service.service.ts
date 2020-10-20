@@ -19,7 +19,6 @@ export class EventsServiceService {
     // this.events = this.afs.collection('events').valueChanges();
 
     this.eventCollection = this.afs.collection('events', ref => ref.orderBy('dateCreated','desc'));
-
     this.events = this.eventCollection.snapshotChanges()
     .map(actions =>{
         return actions.map(a => {
@@ -28,11 +27,9 @@ export class EventsServiceService {
           return {id , data };
         });
     });
-
    }
 
   addEvent(event: Event){
-    // this.EVENTS.unshift(event);
     this.eventCollection.add(event);
   }
 
@@ -46,7 +43,7 @@ export class EventsServiceService {
   }
 
   updateGoing(event){
-    return this.afs.collection('events').doc(event.id).update({going : event.data.going});
+     this.afs.collection('events').doc(event.id).update({going : event.data.going});
   }
   ID: string;
   updateEvent(event){

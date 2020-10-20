@@ -1,39 +1,39 @@
-<mat-card-header>
-  <div mat-card-avatar><img [src]="creatorImg" width="50px" alt="sender" style="border-radius: 50%;" title="{{creatorName}}"></div>
-  <mat-card-title>{{event.data.location | titlecase}} / {{ event.data.time }}</mat-card-title>
-  <mat-card-subtitle>{{event.data.sender}}</mat-card-subtitle>
-</mat-card-header>
-<mat-card-content>
-  <p>{{ event.data.date }}</p>
-</mat-card-content>
-<mat-card-actions style="padding-top: 0;padding-bottom:0;">
-  <button mat-raised-button color=primary (click)="eventGoing($event, event)" *ngIf="showGoingButton && loaded">GOING</button>
-  <button mat-raised-button (click)="eventNotGoing(event)" *ngIf="!showGoingButton && loaded">CAN'T GO</button>
-  <button mat-raised-button *ngIf="!loaded" disabled>LOADING...</button>
-  <button mat-icon-button (click)="deleteEvent($event, event)" color="warn" *ngIf="showButtons"><mat-icon >delete_forever</mat-icon></button>
-  <button mat-icon-button (click)="openDialog(event)" color="primary" *ngIf="showButtons"><mat-icon >edit</mat-icon></button>
-  <div style="color:#ff4081" *ngIf="!expand" class="expandButton">
-    <div (click)="expand = !expand" class="exB">
-      <span>Going</span>
-      <span class="material-icons" >expand_more</span>
+<div *ngIf="event">
+  <mat-card-header>
+    <div mat-card-avatar><img [src]="creatorImg" width="50px" alt="sender" style="border-radius: 50%;" title="{{creatorName}}"></div>
+    <mat-card-title>{{event.data.location | titlecase}} / {{ event.data.time }}</mat-card-title>
+    <mat-card-subtitle>{{event.data.sender}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ event.data.date }}</p>
+  </mat-card-content>
+  <mat-card-actions style="padding-top: 0;padding-bottom:0;">
+    <button mat-raised-button color=primary (click)="eventGoing($event, event)" *ngIf="showGoingButton">GOING</button>
+    <button mat-raised-button (click)="eventNotGoing(event)" *ngIf="!showGoingButton">CAN'T GO</button>
+    <button mat-icon-button (click)="deleteEvent($event, event)" color="warn" *ngIf="showButtons"><mat-icon >delete_forever</mat-icon></button>
+    <button mat-icon-button (click)="openDialog(event)" color="primary" *ngIf="showButtons"><mat-icon >edit</mat-icon></button>
+    <div style="color:#ff4081" *ngIf="!expand" class="expandButton">
+      <div (click)="expand = !expand" class="exB">
+        <span>Going</span>
+        <span class="material-icons" >expand_more</span>
+      </div>
     </div>
-  </div>
-  <div style="color:#ff4081" *ngIf="expand" class="expandButton">
-    <div (click)="expand = !expand" class="exB">
-      <span>Going</span>
-      <span class="material-icons">expand_less</span>
+    <div style="color:#ff4081" *ngIf="expand" class="expandButton">
+      <div (click)="expand = !expand" class="exB">
+        <span>Going</span>
+        <span class="material-icons">expand_less</span>
+      </div>
     </div>
-  </div>
-</mat-card-actions>
-  <div *ngIf="expand">
-    <mat-divider></mat-divider>
-    <mat-card-footer>
-        <!-- <div class="going-container">
-          <span *ngFor="let person of event.data.going" style="margin-right:10px;">{{person}}</span>
-        </div> -->
-        <div class="going-container">
-          <span *ngFor="let user of goingPicutres " style="margin-right:10px;"><img src="{{user.picture}}" width="20px" alt="{{user.name}}" title="{{user.name}}" style="border-radius: 50%;"></span>
-
-        </div>
-    </mat-card-footer>
-  </div>
+  </mat-card-actions>
+    <div *ngIf="expand">
+      <mat-divider></mat-divider>
+      <mat-card-footer>
+          <!-- <div class="going-container">
+            <span *ngFor="let person of event.data.going" style="margin-right:10px;">{{person}}</span>
+          </div> -->
+          <div class="going-container">
+            <span *ngFor="let user of goingPicutres" style="margin-right:10px;"><img src="{{user.picture}}" width="20px" alt="{{user.name}}" title="{{user.name}}" style="border-radius: 50%; cursor: pointer;" (click)="openProfileDialog(user)"></span>
+          </div>
+      </mat-card-footer>
+    </div>
+</div>

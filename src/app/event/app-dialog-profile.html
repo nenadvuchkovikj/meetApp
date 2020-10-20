@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{user.name}}</h2>
+<mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+
+<mat-dialog-content>
+  <mat-divider></mat-divider>
+  <img src="{{user.photo}}" alt="{{user.name}}" width="200px" height="200px" style="border-radius: 50%; margin:20px">
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+</mat-dialog-actions>

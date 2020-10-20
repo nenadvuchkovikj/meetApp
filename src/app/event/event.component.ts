@@ -6,7 +6,6 @@ import { AmazingTimePickerService } from 'amazing-time-picker';
 import { EventsServiceService } from '../service/events-service.service';
 import { Event } from '../models/event';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-event',
@@ -24,12 +23,10 @@ export class EventComponent implements OnInit {
     ) { }
   @Input() event;
 
-  events: any[] = [];
   expand: boolean = true;
   addPerson: boolean = true;
   userEmail:string;
   showButtons:boolean = false;
-  loaded:boolean = false;
   creatorImg: any = "../../assets/people/profile.png";
   creatorName: String;
   goingPicutres: any[] = [];
@@ -45,79 +42,59 @@ export class EventComponent implements OnInit {
         this.userEmail = authState.email;
       }
       this.event.data.going.find(go => {
-       if(go === this.userEmail){
-         this.showGoingButton = false;
-       }
-      })
-      if(this.userEmail === this.event.data.sender){
-        this.showButtons = true;
-      }
-      this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
-        if(res){
-          this.creatorImg = res;
+        if(go === this.userEmail){
+          this.showGoingButton = false;
         }
-      },err => {});
-
-      this.eS.getUser(this.event.data.sender).subscribe(user => {
-        this.creatorName = user.name;
-      });
-
-     this.event.data.going.forEach(go => {
-      this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
-        var name:String = "";
-        this.eS.getUser(go).subscribe(user => {
-          name = user.name;
-          this.goingPicutres.push({picture,name});
-        });
-      },err => {});
-     })
-
-      setTimeout(()=>{
-        this.loaded = true;
-      }, 250);
+       })
+       if(this.userEmail === this.event.data.sender){
+         this.showButtons = true;
+       }
     });
 
+     this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
+         this.creatorImg = res;
+     },err => {});
 
-    this.eS.getEventsFromDB().subscribe(ev =>{
-      this.events = ev;
-    });
+     this.eS.getUser(this.event.data.sender).subscribe(user => {
+       this.creatorName = user.name;
+     });
+
+    this.event.data.going.forEach(go => {
+     this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
+       var name:String = "";
+       var email:String = "";
+       this.eS.getUser(go).subscribe(user => {
+         name = user.name;
+         email = user.email;
+         this.goingPicutres.push({picture, name, email});
+       });
+     },err => {});
+    })
+
   }
-
-  eventGoing(ev,event){
-    this.events.forEach(ev => {
-        if(ev.id === event.id){
-            this.event.data.going.forEach(go =>{
-                if(go === this.userEmail){
-                  this.addPerson = false;
-                }
-            })
-            if(this.addPerson){
+  eventGoing(ev, event){
+        this.event.data.going.forEach(go =>{
+          if(go === this.userEmail){
+            this.addPerson = false;
+          }
+          })
+          if(this.addPerson){
               event.data.going.push(this.userEmail);
               this.eS.updateGoing(event);
-            }
-        }
-        // this.eS.updateEvents(this.events);
-    });
-    this.expand = true;
-    this.addPerson = true;
-  }
-
-  eventNotGoing(event){
-    this.events.forEach(ev => {
-      if(ev.id === event.id){
-        this.event.data.going.forEach((go,index) =>{
-          if(go === this.userEmail){
-            event.data.going.splice(index, 1);
-            this.eS.updateGoing(event);
           }
-      })
-      }
-  });
-  }
+    }
+  eventNotGoing(event){
+        this.event.data.going.forEach((go,index) =>{
+            if(go === this.userEmail){
+              event.data.going.splice(index, 1);
+              this.eS.updateGoing(event);
+            }
+        })
+    }
 
 
   deleteEvent(ev, event){
-    if(confirm('Are you sure?')){
+    if(confirm('Are you sure you want to delete the event?')){
         this.eS.deleteEvent(event);
         this._snackBar.open(`${event.data.location} deleted`,'X', {
           duration: 2500,
@@ -126,7 +103,15 @@ export class EventComponent implements OnInit {
   }
   openDialog(event){
     event.data.id = event.id;
-    const dialogRef = this.dialog.open(DialogEditItem, event);
+    const dialogRef = this.dialog.open(DialogEditEvent, event);
+  }
+  openProfileDialog(user){
+    const dialogRef = this.dialog.open(DialogProfile, {
+      data: {
+        photo: user.picture,
+        name: user.name,
+        email: user.email,
+      }});
   }
 
 }
@@ -153,17 +138,14 @@ export class EventComponent implements OnInit {
 
 })
 
-
-
-
-export class DialogEditItem{
+export class DialogEditEvent{
   constructor(
     private eS: EventsServiceService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private atp: AmazingTimePickerService,
     private fba: AngularFireAuth,
-    private dialogRef: MatDialogRef<DialogEditItem>,
+    private dialogRef: MatDialogRef<DialogEditEvent>,
     @Inject(MAT_DIALOG_DATA) event) {
       this.event = event;
       this.updateTime = this.event.time;
@@ -233,4 +215,32 @@ export class DialogEditItem{
   return (eDay +'/' + eMonth +'/'+ eYear);
   }
 
+}
+
+@Component({
+  selector: 'app-dialog-profile',
+  templateUrl: 'app-dialog-profile.html',
+  styles:[
+    `
+    h2,.mat-card-subtitle{
+      text-align:center;
+      margin:0;
+    }
+    .mat-card-subtitle{
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    `
+  ]
+
+})
+
+export class DialogProfile{
+
+  constructor(
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) data) {
+      this.user = data;
+    }
+    user: any;
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { EventsServiceService } from '../service/events-service.service';
-import { Event } from '../models/event';
 
 @Component({
   selector: 'app-event-list',
@@ -11,11 +10,11 @@ export class EventListComponent implements OnInit {
   peopleGoing: number[];
   constructor(private eS: EventsServiceService) { }
 
-  events: Event[];
+  events: any[];
   ngOnInit(): void {
-    this.eS.getEventsFromDB().subscribe(ev => {
-        this.events = ev;
-    });
+      this.eS.getEventsFromDB().subscribe(ev => {
+          this.events = ev;
+      });
   }
 
 }
