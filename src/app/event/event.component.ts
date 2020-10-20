@@ -21,13 +21,24 @@ export class EventComponent implements OnInit {
     private dialog: MatDialog,
     private storage: AngularFireStorage
     ) { }
-  @Input() event;
+  @Input() eventID;
 
+  event: any = {
+    id: null,
+    date: null,
+    dateCreated: null,
+    going: [],
+    location: null,
+    sender: "",
+    time: null,
+  }
+
+  eventloaded:boolean = false;
   expand: boolean = true;
   addPerson: boolean = true;
   userEmail:string;
   showButtons:boolean = false;
-  creatorImg: any = "../../assets/people/profile.png";
+  creatorImg: any;
   creatorName: String;
   goingPicutres: any[] = [];
 
@@ -37,41 +48,50 @@ export class EventComponent implements OnInit {
   eventToEdit;
 
   ngOnInit(): void {
-    this.fba.authState.subscribe(authState =>{
-      if(authState){
-        this.userEmail = authState.email;
-      }
+    this.eS.getEvent(this.eventID).subscribe(event => {
+      this.showGoingButton = true;
+      this.event = event;
+      this.eventloaded = true;
       this.event.data.going.find(go => {
         if(go === this.userEmail){
           this.showGoingButton = false;
         }
-       })
-       if(this.userEmail === this.event.data.sender){
+       });
+
+      if(this.userEmail === this.event.data.sender){
          this.showButtons = true;
-       }
+      }
+      this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
+          this.creatorImg = res;
+      },err => {});
+
+      this.eS.getUser(this.event.data.sender).subscribe(user => {
+        this.creatorName = user.name;
+      });
+      this.goingPicutres = [];
+      this.event.data.going.forEach(go => {
+        this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
+          var name:String = "";
+          var email:String = "";
+          this.eS.getUser(go).subscribe(user => {
+            name = user.name;
+            email = user.email;
+            this.goingPicutres.push({picture, name, email});
+          });
+        },err => {});
+      })
+
     });
 
-     this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
-         this.creatorImg = res;
-     },err => {});
+    this.fba.authState.subscribe(authState =>{
+      if(authState){
+        this.userEmail = authState.email;
+      }
+    });
 
-     this.eS.getUser(this.event.data.sender).subscribe(user => {
-       this.creatorName = user.name;
-     });
-
-    this.event.data.going.forEach(go => {
-     this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
-       var name:String = "";
-       var email:String = "";
-       this.eS.getUser(go).subscribe(user => {
-         name = user.name;
-         email = user.email;
-         this.goingPicutres.push({picture, name, email});
-       });
-     },err => {});
-    })
 
   }
+
   eventGoing(ev, event){
         this.event.data.going.forEach(go =>{
           if(go === this.userEmail){

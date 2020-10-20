@@ -1,6 +1,6 @@
 <div class="container">
   <h1 style="color:#ff4081">Your Profile</h1>
-  <img [src]="imgUrl" alt="" style="border-radius: 50%;" width="100px" height="100px">
+  <img [src]="imgUrl" alt="" style="border-radius: 50%;object-fit: contain;background-color: black;" width="100px" height="100px">
   <input #file type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display:none;">
   <button type="button" mat-button (click)="fileInput.click()">Change Image</button>
   <p>{{ userEmail }}</p>

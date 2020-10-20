@@ -11,9 +11,13 @@ export class EventListComponent implements OnInit {
   constructor(private eS: EventsServiceService) { }
 
   events: any[];
+  AddedEvents:boolean = false;
   ngOnInit(): void {
       this.eS.getEventsFromDB().subscribe(ev => {
+        if(!this.AddedEvents){
           this.events = ev;
+          this.AddedEvents = true;
+        }
       });
   }
 

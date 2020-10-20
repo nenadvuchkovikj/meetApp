@@ -13,6 +13,7 @@ export class EventsServiceService {
   eventCollection: AngularFirestoreCollection<Event>;
   eventDoc: AngularFirestoreDocument<Event>;
   user: Observable<any>;
+  event: Observable<any>;
   arej: Event[] = [];
   events: Observable<any[]>;
   constructor(public afs: AngularFirestore, private fba: AngularFireAuth) {
@@ -67,9 +68,25 @@ export class EventsServiceService {
     return this.user;
   }
 
+  getEvent(id){
+    const eventDoc = this.afs.doc(`events/${id}`)
+    this.event = eventDoc.snapshotChanges()
+    .pipe(map(action=>{
+       if(action.payload.exists === false){
+          return null;
+       }
+       else{
+          const data = action.payload.data();
+          const id = action.payload.id;
+          return {id , data };
+       }
+    }));
+    return this.event;
+  }
+
   updateUser(email, name){
-      const userDoc = this.afs.doc(`users/${email}`);
-      userDoc.update({email: `${email}`, name: `${name}`});
+      const userDoc = this.afs.collection('users').doc(email);
+      userDoc.set({email: `${email}`, name: `${name}`});
   }
 
 }

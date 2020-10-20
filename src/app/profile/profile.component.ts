@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       var filePath = `images/${this.userEmail}.jpg`
       const fileRef = this.storage.ref(filePath);
+      console.log(event.target.files[0]);
       this.storage.upload(filePath, event.target.files[0])
       .snapshotChanges().pipe(
         finalize(() => {

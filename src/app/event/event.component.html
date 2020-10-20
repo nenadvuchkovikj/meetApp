@@ -1,6 +1,7 @@
-<div *ngIf="event">
+<div *ngIf="eventloaded">
   <mat-card-header>
-    <div mat-card-avatar><img [src]="creatorImg" width="50px" height="50px" alt="sender" style="border-radius: 50%;" title="{{creatorName}}"></div>
+      <div mat-card-avatar *ngIf="creatorImg"><img [src]="creatorImg" width="50px" height="50px" alt="sender" style="border-radius: 50%;object-fit: contain;background-color: black;" title="{{creatorName}}"></div>
+      <div mat-card-avatar *ngIf="!creatorImg"><img src="../../assets/loading.gif" width="50px" height="50px" alt="loading"></div>
     <mat-card-title>{{event.data.location | titlecase}} / {{ event.data.time }}</mat-card-title>
     <mat-card-subtitle>{{event.data.sender}}</mat-card-subtitle>
   </mat-card-header>
@@ -32,7 +33,14 @@
             <span *ngFor="let person of event.data.going" style="margin-right:10px;">{{person}}</span>
           </div> -->
           <div class="going-container">
-            <span *ngFor="let user of goingPicutres" style="margin-right:10px;"><img src="{{user.picture}}" width="20px" height="20px" alt="{{user.name}}" title="{{user.name}}" style="border-radius: 50%; cursor: pointer;" (click)="openProfileDialog(user)"></span>
+            <div *ngIf="goingPicutres.length === 0">
+              <span>
+                <img src="../../assets/loading.gif" alt="" width="24px" height="24px">
+              </span>
+            </div>
+            <div *ngIf="goingPicutres.length > 0">
+              <span *ngFor="let user of goingPicutres" style="margin-right:10px;"><img src="{{user.picture}}" width="24px" height="24px" alt="{{user.name}}" title="{{user.name}}" style="border-radius: 50%; cursor: pointer;object-fit: contain;background-color: black;" (click)="openProfileDialog(user)"></span>
+            </div>
           </div>
       </mat-card-footer>
     </div>
