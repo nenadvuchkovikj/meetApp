@@ -36,6 +36,7 @@ export class EventComponent implements OnInit {
   eventloaded:boolean = false;
   expand: boolean = true;
   addPerson: boolean = true;
+  loading: any = "../../assets/loading.gif";
   userEmail:string;
   showButtons:boolean = false;
   creatorImg: any;
@@ -49,37 +50,44 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.eS.getEvent(this.eventID).subscribe(event => {
-      this.showGoingButton = true;
-      this.event = event;
-      this.eventloaded = true;
-      this.event.data.going.find(go => {
-        if(go === this.userEmail){
-          this.showGoingButton = false;
+      if(event){
+        this.showGoingButton = true;
+        this.loading = "../../assets/loading.gif";
+        this.event = event;
+        this.eventloaded = true;
+        this.event.data.going.find(go => {
+          if(go === this.userEmail){
+            this.showGoingButton = false;
+          }
+         });
+
+        if(this.userEmail === this.event.data.sender){
+           this.showButtons = true;
         }
-       });
-
-      if(this.userEmail === this.event.data.sender){
-         this.showButtons = true;
-      }
-      this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
-          this.creatorImg = res;
-      },err => {});
-
-      this.eS.getUser(this.event.data.sender).subscribe(user => {
-        this.creatorName = user.name;
-      });
-      this.goingPicutres = [];
-      this.event.data.going.forEach(go => {
-        this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
-          var name:String = "";
-          var email:String = "";
-          this.eS.getUser(go).subscribe(user => {
-            name = user.name;
-            email = user.email;
-            this.goingPicutres.push({picture, name, email});
-          });
+        this.storage.ref(`images/${this.event.data.sender}.jpg`).getDownloadURL().subscribe(res =>{
+            this.creatorImg = res;
         },err => {});
-      })
+
+        this.eS.getUser(this.event.data.sender).subscribe(user => {
+          this.creatorName = user.name;
+        });
+        this.goingPicutres = [];
+        this.event.data.going.forEach(go => {
+          this.storage.ref(`images/${go}.jpg`).getDownloadURL().subscribe(picture =>{
+            var name:String = "";
+            var email:String = "";
+            this.eS.getUser(go).subscribe(user => {
+              name = user.name;
+              email = user.email;
+              this.goingPicutres.push({picture, name, email});
+            });
+          },err => {});
+        })
+      }
+      setTimeout(()=> {
+        this.loading = '../../assets/none.png';
+      },2000);
+
 
     });
 
